@@ -4,13 +4,11 @@
 #define LA_IMPLEMENTATION
 #include "la.h"
 
-#define f64 double
-
 #define WIDTH 64
 #define HEIGHT 32
 #define RADIUS 1
 
-#define ASPECT ((f64)WIDTH / (f64)HEIGHT)
+#define ASPECT ((double)WIDTH / (double)HEIGHT)
 #define COL_ASPECT (11.0f / 24.0f)
 
 #define PI 3.1415926535
@@ -61,7 +59,7 @@ static char sphere_draw(V2d uv, V3d o, V3d c, V3d l)
 {
     int color = 0;
     V3d n = v3d_norm(v3d(1.0, uv.x, uv.y));
-    f64 t = sph_intersection(o, n, c, RADIUS);
+    double t = sph_intersection(o, n, c, RADIUS);
     if (t > 0) {
         V3d v = v3d_norm(v3d_sum(o, v3d_mul(n, v3dd(t))));
         double diff = v3d_dot(v, l);
@@ -77,11 +75,11 @@ int main(void)
     V3d origin = { -2.0, 0.0, 0.0 }; // Origin
     V3d center = {  0.0, 0.0, 0.0 }; // Sphere center
 
-    for (f64 t = 0.0; t < 2*PI; t += 0.01) {
+    for (double t = 0.0; t < 2*PI; t += 0.01) {
         V3d light = v3d_norm(v3d(sin(3*t), cos(3*t), -0.5));
         for (size_t i = 0; i < WIDTH; ++i) {
             for (size_t j = 0; j < HEIGHT; ++j) {
-                V2d uv = v2d((f64)(i) / (f64)(WIDTH) * 2.0 - 1.0, (f64)(j) / (f64)(HEIGHT) * 2.0 - 1.0);
+                V2d uv = v2d((double)(i) / (double)(WIDTH) * 2.0 - 1.0, (double)(j) / (double)(HEIGHT) * 2.0 - 1.0);
                 uv.x *= ASPECT * COL_ASPECT;
 
                 char pixel = sphere_draw(uv, origin, center, light);
