@@ -20,7 +20,7 @@ static const char *grad = " .:!/r(l1Z4H9W8$@";
 static size_t grad_size;
 
 // Display screen by rows into terminal
-static void screen_show(void)
+void screen_show(void)
 {
     static char raw[WIDTH];
     for (size_t i = 0; i < HEIGHT; ++i) {
@@ -31,7 +31,7 @@ static void screen_show(void)
 }
 
 // Puts cursor to the begining of terminal
-static void screen_update(void)
+void screen_update(void)
 {
     printf("\x1b[%dD", WIDTH);
     printf("\x1b[%dA", HEIGHT);
@@ -77,7 +77,7 @@ float sph_intersec(V3f o, V3f n, V3f c, float r)
     return -p - d;
 }
 
-static char sphere_draw(V2f uv, V3f o, V3f c, V3f l)
+char sphere_draw(V2f uv, V3f o, V3f c, V3f l)
 {
     int color = 0;
     V3f n = v3f_norm(v3f(1.0f, uv.x, uv.y)); // direction of ray
