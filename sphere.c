@@ -11,8 +11,7 @@
 #define W 1.2f                       // Angular velocity
 #define DIFF_SCALER 18.0f            // Scale to get correct color
 #define PIXEL_ASPECT (11.0f / 24.0f) // Ratio of symbols in console
-#define ASPECT (WIDTH / HEIGHT)
-#define PI 3.141592f
+#define ASPECT (float)(WIDTH / HEIGHT)
 
 static char screen[WIDTH * HEIGHT] = {0};
 
@@ -38,37 +37,37 @@ void screen_update(void)
 }
 
 /*
- * To calculate intersection with sphere need a few steps:
- *    1) Make ray vector in parametric form:
- *              v = o + n*t, where o - origin of ray; n - direction; t - parameter
- *
- *    2) Write sphere equation in vector form:
- *          (v - c)^2 = r^2, where v - variable coordinates (x, y, z); c - center; r - radius
- *
- *    3) Just put ray into sphere equation:
- *          (o + n*t - c)^2 = r^2
- *
- *       Next note like a * b means dot product
- *
- *    4) After few calculations get end formula:
- *          a = n * n
- *          p = o * n - n * c
- *          q = a * (o * o + c * c - 2 * o * c - r^2)
- *          D = 4 * (p * p - q)
- *
- *          t(1;2) = (-p/a) +- sqrt(p * p - q)/a
- *
- *          But n is normalized vector and dot product is 1.0f and we need 1 root consequently if t < 0.0f return -1.0f (it detects that color is blank), else return the most nearest point (when t = -p - sqrt(p * p - q))
- *
- *          Final formula is:
- *              p = o * o - n * c
- *              q = o * o + c * c - 2 * o * c - r^2
- *              d = p * p - q
- *              t = -p - sqrt(d)
- *
- */
-float sph_intersec(V3f o, V3f n, V3f c, float r)
-{
+* To calculate intersection with sphere need a few steps:
+*    1) Make ray vector in parametric form:
+*           v = o + n*t, where o - origin of ray; n - direction; t - parameter
+*
+*    2) Write sphere equation in vector form:
+*          (v - c)^2 = r^2, where v - variable coordinates (x, y, z); c - center; r - radius
+*
+*    3) Just put ray into sphere equation:
+*          (o + n*t - c)^2 = r^2
+*
+*       Next note like a * b means dot product
+*
+*    4) After few calculations get end formula:
+*          a = n * n
+*          p = o * n - n * c
+*          q = a * (o * o + c * c - 2 * o * c - r^2)
+*          D = 4 * (p * p - q)
+*
+*          t(1;2) = (-p/a) +- sqrt(p * p - q)/a
+*
+*          But n is normalized vector and dot product is 1.0f and we need 1 root consequently if t < 0.0f return -1.0f (it detects that color is blank),
+*          else return the most nearest point (when t = -p - sqrt(p * p - q))
+*
+*          Final formula is:
+*              p = o * o - n * c
+*              q = o * o + c * c - 2 * o * c - r^2
+*              d = p * p - q
+*              t = -p - sqrt(d)
+*
+*/
+float sph_intersec(V3f o, V3f n, V3f c, float r) {
     float p = v3f_dot(o, n) - v3f_dot(n, c);
     float q = v3f_dot(o, o) + v3f_dot(c, c) - 2.0f * v3f_dot(o, c) - r * r;
     float d = p * p - q;
