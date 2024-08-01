@@ -6,17 +6,18 @@
 #include "la.h"
 
 // Display proporties
-#define WIDTH        64
-#define HEIGHT       30
-#define COLOR        '@'
-#define BLANK        ' '
-#define ASPECT       (float)WIDTH / (float)HEIGHT
-#define PIXEL_ASPECT (11.0f / 26.0f) // Ratio of symbols in console
+#define WIDTH         64
+#define HEIGHT        32
+#define COLOR         '@'
+#define BLANK         ' '
+#define ASPECT        (float)WIDTH / (float)HEIGHT
+#define PIXEL_ASPECT  (11.0f / 26.0f) // Ratio of symbols in console
+#define DISABLE_CURSOR printf("\e[?25l")
 
 // State prorties
 #define FPS      120
 #define BOUNDARY 1.0f
-#define FRICTION 0.98f
+#define FRICTION 1.00f
 #define RADIUS   0.32f
 #define dt       0.01f
 #define g        9.81f
@@ -68,6 +69,7 @@ void circle_draw(V2f c, float r)
 
 int main(void)
 {
+    DISABLE_CURSOR;
     V2f pos = v2f(-0.4f, 0.6f); // Position of ball
     V2f vel = v2f(1.0f, 0.0f);  // Velocity
     
